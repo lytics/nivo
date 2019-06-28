@@ -28,8 +28,13 @@ export const useTooltipHandlers = container => {
     const showTooltipFromEvent = useCallback(
         (content, event, anchor) => {
             const bounds = container.current.getBoundingClientRect()
-            const x = event.clientX - bounds.left
-            const y = event.clientY - bounds.top
+            let x = event.clientX - bounds.left
+            let y = event.clientY - bounds.top
+
+            if (anchor === 'left' || anchor === 'right') {
+                if (x < bounds.width / 2) anchor = 'right'
+                else anchor = 'left'
+            }
 
             setState({
                 isVisible: true,
